@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "Полный запукс",
+    "Projects": [
+      {
+        "Path": "valera.app\\",
+        "Action": "Start"
+      }
+    ]
+  }
+]
