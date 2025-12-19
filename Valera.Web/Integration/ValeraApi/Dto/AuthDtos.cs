@@ -4,7 +4,6 @@ public sealed class UserRegisterRequest
 {
     public string Email { get; init; } = default!;
     public string Password { get; init; } = default!;
-    public string Username { get; init; } = default!;
 }
 
 public sealed class UserLoginRequest

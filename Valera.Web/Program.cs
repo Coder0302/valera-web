@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using project.Services;
+using System.Security.Claims;
 using System.Text;
 using ValeraWeb.Infrastructure.Ef.Database;
 using ValeraWeb.Infrastructure.Environment.Configuration;
@@ -45,7 +46,10 @@ public class Program
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromSeconds(30)
+                    ClockSkew = TimeSpan.FromSeconds(30),
+
+                    RoleClaimType = "role",
+                    NameClaimType = ClaimTypes.NameIdentifier
                 };
             });
         builder.Services.AddAuthorization();

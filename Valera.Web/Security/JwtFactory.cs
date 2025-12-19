@@ -9,12 +9,13 @@ namespace ValeraWeb.Security;
 
 public static class JwtFactory
 {
-    public static string IssueToken(Guid userId, string email, JwtOptions options)
+    public static string IssueToken(Guid userId, string email, string role, JwtOptions options)
     {
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Email, email)
+            new Claim(ClaimTypes.Email, email),
+            new Claim("role", role)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));

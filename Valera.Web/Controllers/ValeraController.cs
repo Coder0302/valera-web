@@ -20,8 +20,11 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     public async Task<ActionResult<List<ValeraDto>>> GetAll(CancellationToken ct)
     {
         var dto = await _service.GetAll(ct);
-        var userId = User.GetUserId();
-        dto = [.. dto.Where(x => x.UserId == userId)];
+        if (!User.IsAdmin())
+        {
+            var userId = User.GetUserId();
+            dto = [.. dto.Where(x => x.UserId == userId)];
+        }
         return Ok(dto);
     }
 
@@ -50,6 +53,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> TryGoToWork(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.TryGoToWorkAsync(id, ct);
         return Ok(dto);
     }
@@ -60,6 +65,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> ContemplateNature(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.ContemplateNatureAsync(id, ct);
         return Ok(dto);
     }
@@ -70,6 +77,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> DrinkingWineAndWatchingTv(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.DrinkingWineAndWatchingTvAsync(id, ct);
         return Ok(dto);
     }
@@ -80,6 +89,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> GoToBar(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.GoToBarAsync(id, ct);
         return Ok(dto);
     }
@@ -90,6 +101,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> DrinkWithBadHumans(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.DrinkWithBadHumansAsync(id, ct);
         return Ok(dto);
     }
@@ -100,6 +113,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> SingingInSubway(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.SingingInSubwayAsync(id, ct);
         return Ok(dto);
     }
@@ -110,6 +125,8 @@ public sealed class ValeraController(IValeraService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ValeraDto>> Sleep(Guid id, CancellationToken ct)
     {
+        if (User.GetUserId() != id && !User.IsAdmin()) return Forbid();
+
         var dto = await _service.SleepAsync(id, ct);
         return Ok(dto);
     }

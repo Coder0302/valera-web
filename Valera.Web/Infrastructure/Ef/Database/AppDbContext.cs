@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
+using ValeraWeb.Domain.Entities;
 using ValeraWeb.Infrastructure.Ef.Entities;
-using ValeraWeb.Infrastructure.Ef.Entities;
+using ValeraWeb.Migrations;
 
 namespace ValeraWeb.Infrastructure.Ef.Database;
 
@@ -9,21 +11,30 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ValeraEntity> Valeras => Set<ValeraEntity>();
     public DbSet<UserEntity> Users => Set<UserEntity>();
 
-    protected override void OnModelCreating(ModelBuilder b)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(b);
+        base.OnModelCreating(modelBuilder);
 
-        b.Entity<UserEntity>(e =>
+        modelBuilder.Entity<UserEntity>(b =>
         {
-            e.HasIndex(x => x.Email).IsUnique();
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Email).IsRequired();
+            b.Property(x => x.EmailNormalized).IsRequired();
+            b.Property(x => x.Username).IsRequired();
+            b.Property(x => x.PasswordHash).IsRequired();
+            b.Property(x => x.Role).IsRequired();
         });
 
-        b.Entity<ValeraEntity>(e =>
+        modelBuilder.Entity<ValeraEntity>(b =>
         {
-            e.HasOne(v => v.User)
-             .WithMany(u => u.Valeras)
-             .HasForeignKey(v => v.UserId)
+            b.HasKey(x => x.Id);
+
+            b.HasOne(x => x.User)
+             .WithMany()
+             .HasForeignKey(x => x.UserId)
              .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasIndex(x => x.UserId);
         });
     }
 }

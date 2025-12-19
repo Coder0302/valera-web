@@ -26,7 +26,7 @@ public sealed class AuthService(AppDbContext db, IOptions<JwtOptions> jwtOptions
 
         return new AuthResponse
         {
-            Token = JwtFactory.IssueToken(user.Id, user.Email, _jwt),
+            Token = JwtFactory.IssueToken(user.Id, user.Email, user.Role, _jwt),
             User = new UserDto { Id = user.Id, Email = user.Email }
         };
     }
@@ -42,7 +42,7 @@ public sealed class AuthService(AppDbContext db, IOptions<JwtOptions> jwtOptions
 
         return new AuthResponse
         {
-            Token = JwtFactory.IssueToken(user.Id, user.Email, _jwt),
+            Token = JwtFactory.IssueToken(user.Id, user.Email, user.Role, _jwt),
             User = new UserDto { Id = user.Id, Email = user.Email }
         };
     }

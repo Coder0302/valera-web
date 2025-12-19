@@ -5,17 +5,18 @@ namespace ValeraWeb.Infrastructure.Ef.Entities;
 
 public class UserEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    [MaxLength(256)]
-    public string Email { get; set; } = default!;
+    public string Email { get; set; } = string.Empty;
+    public string EmailNormalized { get; set; } = string.Empty;
 
-    // Храним безопасно
-    public string PasswordHash { get; set; } = default!;
+    public string Username { get; set; } = string.Empty;
+
+    public string PasswordHash { get; set; } = string.Empty;
     public string PasswordSalt { get; set; } = default!;
 
-    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    // "User" | "Admin"
+    public string Role { get; set; } = "User";
 
-    // Навигация: один пользователь — много Валер
-    public ICollection<ValeraEntity> Valeras { get; set; } = new List<ValeraEntity>();
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 }
